@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="file:///C:/PROGRAM FILES (X86)/MICROSOFT VISUAL STUDIO 12.0/COMMON7/IDE/EXTENSIONS/MICROSOFT/ARCHITECTURE TOOLS/EXTENSIBILITY/Logging/CodeGenLog.xslt"?>
+<Log xmlns="http://schemas.microsoft.com/VisualStudio/2010/CodeGen.RE.Log" Label="Code Generation/Text Transformation Log">
+  <MessageClass Name="Message" Label="Message" Option="Show informational messages" />
+  <MessageClass Name="Warning" Label="Warning" Option="Show warnings" />
+  <MessageClass Name="Error" Label="Error" Option="Show errors" />
+  <MessageClass Name="Property" Label="Property" Option="Show metadata" />
+  <MessageClass Name="Diagnostic" Label="Message" Option="Show diagnostic messages" />
+  <Message Timestamp="2014-10-30T17:06:55" Importance="High" Text="Code generation or text transformation started." />
+  <Message Timestamp="2014-10-30T17:06:55" Importance="Diagnostic" Text="Name = ClassTemplate" />
+  <Message Timestamp="2014-10-30T17:06:55" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2014-10-30T17:06:55" Importance="Diagnostic" Text="ProjectPath = ..\ChessGameModelLib\ChessGameModelLib.csproj" />
+  <Message Timestamp="2014-10-30T17:06:55" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2014-10-30T17:06:55" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2014-10-30T17:06:55" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2014-10-30T17:06:55" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\ClassTemplate.t4" />
+  <Message Timestamp="2014-10-30T17:06:55" Importance="Medium" Text="ChessGameModel's Text Template Binding: 'ClassTemplate' will apply ClassTemplate.t4 to: 'ChessGameModel::GameBoard' -  (Class), 'ChessGameModel::Square' -  (Class), 'ChessGameModel::Pawn' -  (Class), 'ChessGameModel::Knight' -  (Class), 'ChessGameModel::King' -  (Class), 'ChessGameModel::Rook' -  (Class), 'ChessGameModel::Bishop' -  (Class), 'ChessGameModel::Queen' -  (Class) " />
+  <Message Timestamp="2014-10-30T17:06:55" Importance="Medium" Text="'ChessGameModel::GameBoard' -  (Class) : success (file created) - C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\GeneratedCode\GameBoard.cs" />
+  <Message Timestamp="2014-10-30T17:06:56" Importance="Medium" Text="'ChessGameModel::Square' -  (Class) : success (file created) - C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\GeneratedCode\Square.cs" />
+  <Message Timestamp="2014-10-30T17:06:56" Importance="Medium" Text="'ChessGameModel::Pawn' -  (Class) : success (file created) - C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\GeneratedCode\Pawn.cs" />
+  <Message Timestamp="2014-10-30T17:06:56" Importance="Medium" Text="'ChessGameModel::Knight' -  (Class) : success (file created) - C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\GeneratedCode\Knight.cs" />
+  <Message Timestamp="2014-10-30T17:06:56" Importance="Medium" Text="'ChessGameModel::King' -  (Class) : success (file created) - C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\GeneratedCode\King.cs" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Medium" Text="'ChessGameModel::Rook' -  (Class) : success (file created) - C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\GeneratedCode\Rook.cs" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Medium" Text="'ChessGameModel::Bishop' -  (Class) : success (file created) - C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\GeneratedCode\Bishop.cs" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Medium" Text="'ChessGameModel::Queen' -  (Class) : success (file created) - C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\GeneratedCode\Queen.cs" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="Name = InterfaceTemplate" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="ProjectPath = ..\ChessGameModelLib\ChessGameModelLib.csproj" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\InterfaceTemplate.t4" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\InterfaceTemplate.t4" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Medium" Text="ChessGameModel's Text Template Binding: 'InterfaceTemplate' will apply InterfaceTemplate.t4 to: 'ChessGameModel::IPiece' -  (Interface) " />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Medium" Text="'ChessGameModel::IPiece' -  (Interface) : success (file created) - C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\GeneratedCode\IPiece.cs" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="Name = StructTemplate" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="Overwrite = True" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="ProjectPath = ..\ChessGameModelLib\ChessGameModelLib.csproj" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="TargetDirectory = GeneratedCode\{PackageStructure}" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="TargetName = {Name}" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="TemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="ResolvedTemplateFilePath = C:\PROGRAM FILES (X86)\MICROSOFT VISUAL STUDIO 12.0\COMMON7\IDE\EXTENSIONS\MICROSOFT\ARCHITECTURE TOOLS\EXTENSIBILITY\Templates\Text\StructTemplate.t4" />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Medium" Text="ChessGameModel's Text Template Binding: 'StructTemplate' will apply StructTemplate.t4 to: 'ChessGameModel::GameBoard' -  (Class), 'ChessGameModel::Square' -  (Class), 'ChessGameModel::Pawn' -  (Class), 'ChessGameModel::Knight' -  (Class), 'ChessGameModel::King' -  (Class), 'ChessGameModel::Rook' -  (Class), 'ChessGameModel::Bishop' -  (Class), 'ChessGameModel::Queen' -  (Class) " />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="'ChessGameModel::GameBoard' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="'ChessGameModel::Square' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="'ChessGameModel::Pawn' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="'ChessGameModel::Knight' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="'ChessGameModel::King' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="'ChessGameModel::Rook' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="'ChessGameModel::Bishop' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2014-10-30T17:06:57" Importance="Diagnostic" Text="'ChessGameModel::Queen' -  (Class): no file generated because the 'AppliesToElement' method of the template 'StructTemplate.t4' evaluated to false." />
+  <Message Timestamp="2014-10-30T17:06:58" Importance="Diagnostic" Text="The selection included 8 elements which were not bound to a template." />
+  <Message Timestamp="2014-10-30T17:06:58" Importance="Diagnostic" Text="'ChessGameModel::' -  (Association): no bound template." />
+  <Message Timestamp="2014-10-30T17:06:58" Importance="Diagnostic" Text="'ChessGameModel::' -  (Association): no bound template." />
+  <Message Timestamp="2014-10-30T17:06:58" Importance="Diagnostic" Text="'ChessGameModel::' -  (InterfaceRealization): no bound template." />
+  <Message Timestamp="2014-10-30T17:06:58" Importance="Diagnostic" Text="'ChessGameModel::' -  (InterfaceRealization): no bound template." />
+  <Message Timestamp="2014-10-30T17:06:58" Importance="Diagnostic" Text="'ChessGameModel::' -  (InterfaceRealization): no bound template." />
+  <Message Timestamp="2014-10-30T17:06:58" Importance="Diagnostic" Text="'ChessGameModel::' -  (InterfaceRealization): no bound template." />
+  <Message Timestamp="2014-10-30T17:06:58" Importance="Diagnostic" Text="'ChessGameModel::' -  (InterfaceRealization): no bound template." />
+  <Message Timestamp="2014-10-30T17:06:58" Importance="Diagnostic" Text="'ChessGameModel::' -  (InterfaceRealization): no bound template." />
+  <Message Timestamp="2014-10-30T17:06:58" Importance="High" Text="Code generation complete. Errors: 0. Warnings: 0." />
+</Log>

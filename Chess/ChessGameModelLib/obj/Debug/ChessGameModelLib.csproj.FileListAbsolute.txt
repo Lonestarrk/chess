@@ -1,0 +1,4 @@
+C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\bin\Debug\ChessGameModelLib.dll
+C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\bin\Debug\ChessGameModelLib.pdb
+C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\obj\Debug\ChessGameModelLib.dll
+C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\obj\Debug\ChessGameModelLib.pdb

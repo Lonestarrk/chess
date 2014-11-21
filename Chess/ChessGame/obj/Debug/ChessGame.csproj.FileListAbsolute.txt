@@ -1,0 +1,5 @@
+C:\Users\Jimmy\Desktop\Chess\ChessGame\bin\Debug\ChessGame.dll
+C:\Users\Jimmy\Desktop\Chess\ChessGame\obj\Debug\ChessGame.dll
+C:\Users\Jimmy\Desktop\Chess\ChessGame\obj\Debug\ChessGame.pdb
+C:\Users\Jimmy\Desktop\Chess\ChessGame\bin\Debug\ChessGame.pdb
+C:\Users\Jimmy\Desktop\Chess\ChessGame\obj\Debug\ChessGame.csprojResolveAssemblyReference.cache
