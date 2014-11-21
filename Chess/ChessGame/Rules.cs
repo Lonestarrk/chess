@@ -82,113 +82,21 @@ namespace ChessGame
 
         public static bool Bishop(Square currentSqure, Square nextSqare)
         {
-            var pos = currentSqure.Position;
-            var next = nextSqare.Position;
+            bool canMoveTo = BishopCanMoveTo(currentSqure, nextSqare);
 
-            bool previousSqureWasEmpty = false;
-
-            for (int n = 1; n <= 8; n++)
-            {
-                bool canMoveTo = BishopCanMoveTo(currentSqure, nextSqare, n) || BishopCanTake(currentSqure, nextSqare);
-
-                if (canMoveTo)
-                {
-
-                    return true;
-                }
-
-                if (HasEnemy(currentSqure, nextSqare))
-                {
-                    break;
-                }
-            }
-
-            return false;
+            return canMoveTo;
 
         }
 
 
-        private static bool BishopCanMoveTo(Square current, Square nextSquare, int n)
+        private static bool BishopCanMoveTo(Square current, Square nextSquare)
         {
             var pos = current.Position;
             var next = nextSquare.Position;
 
-            var canMove = Offset(pos, next, n, n) ||
-                   Offset(pos, next, -n, -n) ||
-                   Offset(pos, next, n, -n) ||
-                   Offset(pos, next, -n, n);
+            var squaresBeween = GetDiagonalSquares(current);
 
-
-
-            return canMove;
-        }
-        private static bool BishopCanTake(Square current, Square nextSquare)
-        {
-
-            return HasEnemy(current, nextSquare) && IsInUnobstructedDiagonalLine(current, nextSquare);
-        }
-
-        private static bool IsInUnobstructedDiagonalLine(Square current, Square next)
-        {
-            var squaresBeween = GetSquaresBetween(current, next);
-            
-            return squaresBeween.All(s => s.Piece == null) && squaresBeween.Count > 0;
-        }
-
-        private static List<Square> GetSquaresBetween(Square current, Square next)
-        {
-            var diagonalSquares = GetDiagonalSquares(current);
-            var verticalAndHorizontalSquares = GetVerticalAndHorizontalSquares(current);
-
-            //var distansX = Math.Abs(current.Position.X - next.Position.X);
-            //var distansY = Math.Abs(current.Position.Y - next.Position.Y);
-
-            var smallestX = Math.Min(current.Position.X, next.Position.X)+1;
-            var smallestY = Math.Min(current.Position.Y, next.Position.Y)+1;
-
-            var biggestX = Math.Max(current.Position.X, next.Position.X)-1;
-            var biggestY = Math.Max(current.Position.Y, next.Position.Y)-1;
-
-
-            var squares = new List<Square>();
-
-            if (diagonalSquares.Any(s => s.Position == next.Position))
-            {
-                for (int n = smallestX; n <= biggestX; n++)
-                {
-                    var square = GameBoard.Squares.SingleOrDefault(s => s.Position.X == n && s.Position.Y == n);
-
-                    if (IsOccupied(current,next))
-                    {
-                        return squares;
-                    }
-
-                    squares.Add(square);
-
-                    if (HasEnemy(current,next))
-                    {
-                        return squares;
-                    }
-
-                }
-                   
-            }
-
-            //if (verticalAndHorizontalSquares.Any(s => s.Position == next.Position))
-            //{
-            //    for (int x = smallestX; x < biggestX; x++)
-            //    {
-            //        for (int y = smallestY; y < biggestY; y++)
-            //        {
-            //            squares.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == x && s.Position.Y == y));
-            //        }
-            //    }
-            //    squares.RemoveAt(squares.Count - 1);
-            //    squares.RemoveAt(0);
-            //}
-
-
-            return squares;
+            return squaresBeween.Contains(nextSquare);
         }
 
         private static bool IsOccupied(Square current, Square next)
@@ -210,14 +118,53 @@ namespace ChessGame
         private static List<Square> GetDiagonalSquares(Square current)
         {
             var squares = new List<Square>();
+            var paths = new List<List<Square>>();
+
+            var path1 = new List<Square>();
+            var path2 = new List<Square>();
+            var path3 = new List<Square>();
+            var path4 = new List<Square>();
+
             for (int n = 1; n < 8; n++)
             {
-                squares = squares.Union(GameBoard.Squares.Where(s => s.Position.X == current.Position.X + n && s.Position.Y == current.Position.Y + n)).ToList();
-                squares = squares.Union(GameBoard.Squares.Where(s => s.Position.X == current.Position.X - n && s.Position.Y == current.Position.Y - n)).ToList();
-                squares = squares.Union(GameBoard.Squares.Where(s => s.Position.X == current.Position.X - n && s.Position.Y == current.Position.Y + n)).ToList();
-                squares = squares.Union(GameBoard.Squares.Where(s => s.Position.X == current.Position.X + n && s.Position.Y == current.Position.Y - n)).ToList();
+                path1.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == current.Position.X + n && s.Position.Y == current.Position.Y + n));
+                path2.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == current.Position.X - n && s.Position.Y == current.Position.Y - n));
+                path3.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == current.Position.X - n && s.Position.Y == current.Position.Y + n));
+                path4.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == current.Position.X + n && s.Position.Y == current.Position.Y - n));
 
+                
             }
+
+            path1 = path1.Where(p => p != null).ToList();
+            path2 = path2.Where(p => p != null).ToList();
+            path3 = path3.Where(p => p != null).ToList();
+            path4 = path4.Where(p => p != null).ToList();
+
+            paths.Add(path1); 
+            paths.Add(path2);
+            paths.Add(path3);
+            paths.Add(path4);
+
+            foreach (var path in paths)
+            {
+                foreach (var square in path)
+                {
+                    if (square.Piece == null)
+                    {
+                        squares.Add(square);
+                    }
+                    else if (square.Piece != null && HasEnemy(current,square))
+                    {
+                        squares.Add(square);
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
             return squares;
         }
 
