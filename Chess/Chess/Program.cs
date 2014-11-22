@@ -11,12 +11,14 @@ namespace Chess
     {
         static void Main(string[] args)
         {
+            
+            Console.SetWindowSize(80,40);
             GameBoard.NewGame();
         
 
 
           
-            //Console.OutputEncoding = Console.InputEncoding = Encoding.Unicode;
+            
             
             Console.Read();
         }

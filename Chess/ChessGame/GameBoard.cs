@@ -29,9 +29,9 @@ public static class GameBoard
 
 
 
-        var selectedSquare = new Position(5,5);
-
-        DrawGameBoard(Squares, selectedSquare);
+        var currentPosition = new Position(5, 5);
+        Position selectedPosition = null;
+        DrawGameBoard(Squares, currentPosition);
 
         while (true)
         {
@@ -41,30 +41,36 @@ public static class GameBoard
             switch (key)
             {
                 case ConsoleKey.LeftArrow:
-                    selectedSquare.X--;
+                    currentPosition.X--;
                     break;
                 case ConsoleKey.RightArrow:
-                    selectedSquare.X++;
+                    currentPosition.X++;
                     break;
                 case ConsoleKey.DownArrow:
-                    selectedSquare.Y++;
+                    currentPosition.Y++;
                     break;
                 case ConsoleKey.UpArrow:
-                    selectedSquare.Y--;
+                    currentPosition.Y--;
                     break;
-                case ConsoleKey.Enter:
-                    Console.Clear();
-                    DrawGameBoard(Squares, selectedSquare,GetAccessableSquares(selectedSquare));
-                    continue;
+                case ConsoleKey.Enter:                   
+                    selectedPosition = new Position(currentPosition.X,currentPosition.Y);
+                    break;
+                case ConsoleKey.Escape:                 
+                    selectedPosition = null;
+                    break;
             }
 
-
+            IEnumerable<Square> accessableSquares = null;
+            if (selectedPosition != null)
+            {
+                accessableSquares = GetAccessableSquares(selectedPosition);
+            }
             Console.Clear();
-            DrawGameBoard(Squares, selectedSquare);
+            DrawGameBoard(Squares, currentPosition, accessableSquares);
 
 
 
-            Console.WriteLine(selectedSquare);
+            Console.WriteLine(currentPosition);
         }
     }
 
@@ -87,11 +93,11 @@ public static class GameBoard
 
     private static void DrawGameBoard(List<Square> squares, Position selectedSquarePosition, IEnumerable<Square> selectedCanMoveTo = null)
     {
-        
+
 
         bool oddNumbersAreWhite = true;
 
-        for (int i = 1; i <= 8; i ++)
+        for (int i = 1; i <= 8; i++)
         {
             int rowNumber = i;
 
@@ -108,7 +114,7 @@ public static class GameBoard
 
     private static void DrawRow(int rowNumber, bool oddIsWhite, bool drawPiece, Position selectedSquarePosition, IEnumerable<Square> selectedCanMoveTo = null)
     {
-        
+
         for (int i = 1; i <= 8; i++)
         {
             var square = Squares.SingleOrDefault(s => s.Position.X == i && s.Position.Y == rowNumber);
@@ -118,7 +124,7 @@ public static class GameBoard
                 Console.BackgroundColor = ConsoleColor.DarkCyan;
 
             }
-            else if (selectedCanMoveTo != null && selectedCanMoveTo.Any(s => s.Position.X == i && s.Position.Y== rowNumber))
+            else if (selectedCanMoveTo != null && selectedCanMoveTo.Any(s => s.Position.X == i && s.Position.Y == rowNumber))
             {
                 Console.BackgroundColor = oddIsWhite
                     ? (i % 2 == 0 ? ConsoleColor.DarkGreen : ConsoleColor.Green)
@@ -158,7 +164,7 @@ public static class GameBoard
     {
         for (int x = 1; x <= 8; x++)
         {
-            PlaceGamePiece(new Position(x,7), new Pawn(PieceColor.White));
+            PlaceGamePiece(new Position(x, 7), new Pawn(PieceColor.White));
 
             PlaceGamePiece(new Position(x, 2), new Pawn(PieceColor.Black));
         }
@@ -210,7 +216,7 @@ public static class GameBoard
             {
                 Squares.Add(new Square
                 {
-                    Position = new Position(x,y)
+                    Position = new Position(x, y)
                 });
             }
         }

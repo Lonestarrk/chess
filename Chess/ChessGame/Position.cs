@@ -23,18 +23,27 @@ namespace ChessGame
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Position) obj);
+            return Equals((Position)obj);
         }
 
 
-        public static bool operator ==(Position position1, Position position2)
+        public static bool operator ==(Position position1, object obj)
         {
-            return (position1.X == position2.X && position1.Y == position2.Y);
+            var position2 = obj as Position;
+            if (obj is Position)
+            {
+                return (position1.X == position2.X && position1.Y == position2.Y);
+
+            }
+            return false;
+
         }
 
-        public static bool operator !=(Position position1, Position position2)
+        public static bool operator !=(Position position1, object position2)
         {
+
             return !(position1 == position2);
+
         }
 
 
