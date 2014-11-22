@@ -40,14 +40,14 @@ namespace ChessGame
             if (currentSqure.Piece.PieceColor == PieceColor.White)
             {
 
-                return forwardStep1 ||
+                return forwardStep1 && !IsOccupied(nextSqare) ||
                        HasEnemy(currentSqure, nextSqare) && (next.X == pos.X + 1 && next.Y == pos.Y - 1) ||
                        HasEnemy(currentSqure, nextSqare) && (next.X == pos.X - 1 && next.Y == pos.Y - 1);
             }
 
 
 
-            return forwardStep2 ||
+            return forwardStep2 && !IsOccupied(nextSqare) ||
                    HasEnemy(currentSqure, nextSqare) && (next.X == pos.X + 1 && next.Y == pos.Y + 1) ||
                    HasEnemy(currentSqure, nextSqare) && (next.X == pos.X - 1 && next.Y == pos.Y + 1);
 
@@ -95,9 +95,9 @@ namespace ChessGame
 
         }
 
-        private static bool IsOccupied(Square current, Square next)
+        private static bool IsOccupied(Square next)
         {
-            return next.Piece != null && next.Piece.PieceColor != current.Piece.PieceColor;
+            return next.Piece != null;
         }
 
         private static List<Square> GetVerticalAndHorizontalSquares(Square current)

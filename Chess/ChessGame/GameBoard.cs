@@ -107,7 +107,7 @@ public static class GameBoard
 
             if (IsCheck(Turn))
             {
-                Console.WriteLine("Schack!");
+                Console.WriteLine("Schack!"); //todo fixa så man inte kan ta en pjäs som setter kungen i schack
             }
         }
         Console.ReadKey();
