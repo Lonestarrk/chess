@@ -12,7 +12,7 @@ namespace Chess
         static void Main(string[] args)
         {
             
-            Console.SetWindowSize(80,40);
+            
             GameBoard.NewGame();
         
 

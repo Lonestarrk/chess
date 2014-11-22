@@ -23,11 +23,10 @@ public static class GameBoard
 
     public static void NewGame()
     {
+        Console.SetWindowSize(80, 40);
         GeneratAllBoardSquares();
 
         PlaceGamePieces();
-
-
 
         var currentPosition = new Position(5, 5);
         Position selectedPosition = null;
@@ -178,7 +177,7 @@ public static class GameBoard
         PlaceGamePiece(new Position(7, 8), new Knight(PieceColor.White));
         PlaceGamePiece(new Position(8, 8), new Rook(PieceColor.White));
 
-        PlaceGamePiece(new Position(5, 5), new Bishop(PieceColor.White));
+        PlaceGamePiece(new Position(5, 5), new Queen(PieceColor.White));
 
         PlaceGamePiece(new Position(1, 1), new Rook(PieceColor.Black));
         PlaceGamePiece(new Position(2, 1), new Knight(PieceColor.Black));

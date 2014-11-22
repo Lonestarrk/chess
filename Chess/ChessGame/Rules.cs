@@ -80,23 +80,12 @@ namespace ChessGame
             return Bishop(currentSqure, nextSqare) || Rook(currentSqure, nextSqare);
         }
 
-        public static bool Bishop(Square currentSqure, Square nextSqare)
+        public static bool Bishop(Square currentSqure, Square nextSquare)
         {
-            bool canMoveTo = BishopCanMoveTo(currentSqure, nextSqare);
+            bool canMoveTo = GetDiagonalSquares(currentSqure).Contains(nextSquare);
 
             return canMoveTo;
 
-        }
-
-
-        private static bool BishopCanMoveTo(Square current, Square nextSquare)
-        {
-            var pos = current.Position;
-            var next = nextSquare.Position;
-
-            var squaresBeween = GetDiagonalSquares(current);
-
-            return squaresBeween.Contains(nextSquare);
         }
 
         private static bool IsOccupied(Square current, Square next)
@@ -106,26 +95,34 @@ namespace ChessGame
 
         private static List<Square> GetVerticalAndHorizontalSquares(Square current)
         {
-            var horizontal = GameBoard.Squares
-                .Where(s => s.Position.Y == current.Position.Y && s.Position.X != current.Position.X);
+      
+            var path1 = new List<Square>();
+            var path2 = new List<Square>();
+            var path3 = new List<Square>();
+            var path4 = new List<Square>();
 
-            var vertical = GameBoard.Squares
-                .Where(s => s.Position.X == current.Position.X && s.Position.Y != current.Position.Y);
+            for (int n = 1; n <= 8; n++)
+            {
+                path1.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == current.Position.X + n && s.Position.Y == current.Position.Y));
+                path2.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == current.Position.X - n && s.Position.Y == current.Position.Y));
+                path3.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.Y == current.Position.Y + n && s.Position.X == current.Position.X));
+                path4.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.Y == current.Position.Y - n && s.Position.X == current.Position.X));
+            }
 
-            return vertical.Union(horizontal).ToList();
+            var squares = GetAccesableSquares(current, path1, path2, path3, path4);
+
+            return squares;
         }
 
         private static List<Square> GetDiagonalSquares(Square current)
-        {
-            var squares = new List<Square>();
-            var paths = new List<List<Square>>();
+        {            
 
             var path1 = new List<Square>();
             var path2 = new List<Square>();
             var path3 = new List<Square>();
             var path4 = new List<Square>();
 
-            for (int n = 1; n < 8; n++)
+            for (int n = 1; n <= 8; n++)
             {
                 path1.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == current.Position.X + n && s.Position.Y == current.Position.Y + n));
                 path2.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == current.Position.X - n && s.Position.Y == current.Position.Y - n));
@@ -135,12 +132,22 @@ namespace ChessGame
                 
             }
 
+            var squares = GetAccesableSquares(current, path1, path2, path3, path4);
+
+            return squares;
+        }
+
+        private static List<Square> GetAccesableSquares(Square current, List<Square> path1, List<Square> path2, List<Square> path3, List<Square> path4)
+        {
+            var squares = new List<Square>();
+            var paths = new List<List<Square>>();
+
             path1 = path1.Where(p => p != null).ToList();
             path2 = path2.Where(p => p != null).ToList();
             path3 = path3.Where(p => p != null).ToList();
             path4 = path4.Where(p => p != null).ToList();
 
-            paths.Add(path1); 
+            paths.Add(path1);
             paths.Add(path2);
             paths.Add(path3);
             paths.Add(path4);
@@ -153,7 +160,7 @@ namespace ChessGame
                     {
                         squares.Add(square);
                     }
-                    else if (square.Piece != null && HasEnemy(current,square))
+                    else if (square.Piece != null && HasEnemy(current, square))
                     {
                         squares.Add(square);
                         break;
@@ -164,7 +171,6 @@ namespace ChessGame
                     }
                 }
             }
-
             return squares;
         }
 
@@ -173,7 +179,7 @@ namespace ChessGame
             var pos = currentSqure.Position;
             var next = nextSqare.Position;
 
-            throw new NotImplementedException();
+            return GetVerticalAndHorizontalSquares(currentSqure).Contains(nextSqare);
         }
     }
 }
