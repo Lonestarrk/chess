@@ -28,24 +28,21 @@ namespace ChessGame
         {
             if (CanMoveTo(square))
             {
-                var moveIsAllowed = MoveRule;
-
-                if (moveIsAllowed(Square,square))
-                {
-                    square.Piece = Square.Piece;
-                    Square.Piece = null;
-                    return;
-                }
-                throw new ApplicationException("Flytten är inte tillåten");
+                
+                square.Piece = Square.Piece;
+                Square.Piece = null;
+               
+                return;
             }
-         
+
+            throw new ApplicationException("Flytten är inte tillåten");
         }
 
         public virtual bool CanMoveTo(Square square)
         {
-            return (square.Piece == null || square.Piece.PieceColor != this.PieceColor) 
-                && MoveRule.Invoke(Square,square);
+            return (square.Piece == null || square.Piece.PieceColor != this.PieceColor)
+                && MoveRule.Invoke(Square, square);
         }
-      
+
     }
 }

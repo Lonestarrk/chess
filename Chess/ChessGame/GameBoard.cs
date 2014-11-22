@@ -32,6 +32,8 @@ public static class GameBoard
         Position selectedPosition = null;
         DrawGameBoard(Squares, currentPosition);
 
+        IEnumerable<Square> accessableSquares = null;
+
         while (true)
         {
 
@@ -51,19 +53,31 @@ public static class GameBoard
                 case ConsoleKey.UpArrow:
                     currentPosition.Y--;
                     break;
-                case ConsoleKey.Enter:                   
-                    selectedPosition = new Position(currentPosition.X,currentPosition.Y);
+                case ConsoleKey.Enter:
+
+                    if (accessableSquares != null)
+                    {
+                        if (accessableSquares.Any(a => a.Position == currentPosition))
+                        {
+                            Move(selectedPosition, currentPosition);
+                            selectedPosition = null;
+                            break;
+                        }
+
+                    }
+
+                    selectedPosition = new Position(currentPosition.X, currentPosition.Y);
                     break;
-                case ConsoleKey.Escape:                 
+
+                case ConsoleKey.Escape:
                     selectedPosition = null;
                     break;
             }
 
-            IEnumerable<Square> accessableSquares = null;
-            if (selectedPosition != null)
-            {
-                accessableSquares = GetAccessableSquares(selectedPosition);
-            }
+
+
+            accessableSquares = GetAccessableSquares(selectedPosition);
+
             Console.Clear();
             DrawGameBoard(Squares, currentPosition, accessableSquares);
 
@@ -75,6 +89,10 @@ public static class GameBoard
 
     private static IEnumerable<Square> GetAccessableSquares(Position selectedPosition)
     {
+        if (selectedPosition == null)
+        {
+            return null;
+        }
         var currentSquare = Squares.SingleOrDefault(s => s.Position == selectedPosition);
 
         var Accessables = new List<Square>();
@@ -193,10 +211,9 @@ public static class GameBoard
 
     private static void Move(Position fromSquarePosition, Position toSquarePosition)
     {
-        var from = Squares.SingleOrDefault(s => s.Position == fromSquarePosition);
-        var destinaion = Squares.SingleOrDefault(s => s.Position == fromSquarePosition);
+        var piece = TakeGamePiece(fromSquarePosition);
 
-        from.Piece.MoveTo(destinaion);
+        PlaceGamePiece(toSquarePosition,piece);
     }
     private static void PlaceGamePiece(Position squarePosition, Piece piece)
     {
@@ -205,6 +222,16 @@ public static class GameBoard
         square.Piece = piece;
         piece.Square = square;
 
+    }
+
+    private static Piece TakeGamePiece(Position squarePosition)
+    {
+        var square = Squares.SingleOrDefault(s => s.Position == squarePosition);
+
+        var piece = square.Piece;
+
+        square.Piece = null;
+        return piece;
     }
 
     private static void GeneratAllBoardSquares()
