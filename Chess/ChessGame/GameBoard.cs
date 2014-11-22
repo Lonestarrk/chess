@@ -16,7 +16,7 @@ using ChessGame;
 public static class GameBoard
 {
     public static List<Square> Squares { get; private set; }
-    public static bool IsWhiteTurn { get; private set; }
+    public static PieceColor Turn { get; private set; }
 
 
     static GameBoard()
@@ -28,7 +28,7 @@ public static class GameBoard
     {
         Console.SetWindowSize(80, 40);
 
-        IsWhiteTurn = true;
+        Turn = PieceColor.White;
         GeneratAllBoardSquares();
 
         PlaceGamePieces();
@@ -93,7 +93,7 @@ public static class GameBoard
 
 
             Console.WriteLine(currentPosition);
-            if (IsWhiteTurn)
+            if (Turn == PieceColor.White)
             {
                 Console.WriteLine("Vits Tur");
             }
@@ -101,7 +101,32 @@ public static class GameBoard
             {
                 Console.WriteLine("Svarts Tur");
             }
+
+
+            if (IsCheck(Turn))
+            {
+                Console.WriteLine("Schack!");
+            }
         }
+        Console.ReadKey();
+    }
+
+    private static bool IsCheck(PieceColor turn)
+    {
+        var attackers = Squares.Where(s => s.Piece != null && s.Piece.PieceColor == turn);
+
+        foreach (var square in attackers)
+        {
+            var canMoveTo = GetAccessibleSquares(square.Position);
+
+            if (canMoveTo.Any(c => c.Piece != null && c.Piece.GetType() == typeof(King)))
+            {
+                return true;
+            }
+
+        }
+        return false;
+        
     }
 
     private static bool IsColorTurn(Position selectedPosition)
@@ -113,11 +138,11 @@ public static class GameBoard
             return true;
         }
  
-        if (square.Piece.PieceColor == PieceColor.Black && !IsWhiteTurn)
+        if (square.Piece.PieceColor == PieceColor.Black && Turn == PieceColor.Black)
         {
             return true;
         }
-        else if (square.Piece.PieceColor == PieceColor.White && IsWhiteTurn)
+        else if (square.Piece.PieceColor == PieceColor.White && Turn == PieceColor.White)
         {
             return true;
         }
@@ -232,8 +257,6 @@ public static class GameBoard
         PlaceGamePiece(new Position(7, 8), new Knight(PieceColor.White));
         PlaceGamePiece(new Position(8, 8), new Rook(PieceColor.White));
 
-        PlaceGamePiece(new Position(5, 5), new Queen(PieceColor.White));
-
         PlaceGamePiece(new Position(1, 1), new Rook(PieceColor.Black));
         PlaceGamePiece(new Position(2, 1), new Knight(PieceColor.Black));
         PlaceGamePiece(new Position(3, 1), new Bishop(PieceColor.Black));
@@ -252,7 +275,7 @@ public static class GameBoard
 
         PlaceGamePiece(toSquarePosition, piece);
 
-        IsWhiteTurn = !IsWhiteTurn;
+        Turn = Turn == PieceColor.White ? PieceColor.Black : PieceColor.White;
     }
     private static void PlaceGamePiece(Position squarePosition, Piece piece)
     {
