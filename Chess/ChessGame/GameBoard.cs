@@ -7,6 +7,7 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
@@ -14,7 +15,9 @@ using ChessGame;
 
 public static class GameBoard
 {
-    public static List<Square> Squares { get; set; }
+    public static List<Square> Squares { get; private set; }
+    public static bool WhiteTurn { get; private set; }
+
 
     static GameBoard()
     {
@@ -24,6 +27,8 @@ public static class GameBoard
     public static void NewGame()
     {
         Console.SetWindowSize(80, 40);
+
+        WhiteTurn = true;
         GeneratAllBoardSquares();
 
         PlaceGamePieces();
@@ -60,6 +65,7 @@ public static class GameBoard
                         if (accessableSquares.Any(a => a.Position == currentPosition))
                         {
                             Move(selectedPosition, currentPosition);
+                            WhiteTurn = !WhiteTurn;
                             selectedPosition = null;
                             break;
                         }
@@ -75,8 +81,11 @@ public static class GameBoard
             }
 
 
+            if (IsColorTurn(selectedPosition))
+            {
+                accessableSquares = GetAccessableSquares(selectedPosition);
+            }
 
-            accessableSquares = GetAccessableSquares(selectedPosition);
 
             Console.Clear();
             DrawGameBoard(Squares, currentPosition, accessableSquares);
@@ -84,7 +93,35 @@ public static class GameBoard
 
 
             Console.WriteLine(currentPosition);
+            if (WhiteTurn)
+            {
+                Console.WriteLine("Vits Tur");
+            }
+            else
+            {
+                Console.WriteLine("Svarts Tur");
+            }
         }
+    }
+
+    private static bool IsColorTurn(Position selectedPosition)
+    {
+        var square = Squares.SingleOrDefault(s => s.Position == selectedPosition);
+
+        if (square == null || square.Piece == null)
+        {
+            return true;
+        }
+ 
+        if (square.Piece.PieceColor == PieceColor.Black && !WhiteTurn)
+        {
+            return true;
+        }
+        else if (square.Piece.PieceColor == PieceColor.White && WhiteTurn)
+        {
+            return true;
+        }
+        return false;
     }
 
     private static IEnumerable<Square> GetAccessableSquares(Position selectedPosition)
@@ -213,7 +250,7 @@ public static class GameBoard
     {
         var piece = TakeGamePiece(fromSquarePosition);
 
-        PlaceGamePiece(toSquarePosition,piece);
+        PlaceGamePiece(toSquarePosition, piece);
     }
     private static void PlaceGamePiece(Position squarePosition, Piece piece)
     {
