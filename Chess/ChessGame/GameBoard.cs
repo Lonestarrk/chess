@@ -26,6 +26,8 @@ public static class GameBoard
 
     public static void NewGame()
     {
+        NewGameSoundEffect();
+
         Console.SetWindowSize(80, 40);
 
         Turn = PieceColor.White;
@@ -111,9 +113,15 @@ public static class GameBoard
         Console.ReadKey();
     }
 
+    private static void NewGameSoundEffect()
+    {
+        Console.Beep(300, 150);
+        Console.Beep(500, 150);
+    }
+
     private static bool IsCheck(PieceColor turn)
     {
-        var attackers = Squares.Where(s => s.Piece != null && s.Piece.PieceColor == turn);
+        var attackers = Squares.Where(s => s.Piece != null);
 
         foreach (var square in attackers)
         {
@@ -121,12 +129,18 @@ public static class GameBoard
 
             if (canMoveTo.Any(c => c.Piece != null && c.Piece.GetType() == typeof(King)))
             {
+                CheckSoundEffect();
                 return true;
             }
-
         }
         return false;
         
+    }
+
+    private static void CheckSoundEffect()
+    {
+        Console.Beep(500, 150);
+        Console.Beep(800, 150);
     }
 
     private static bool IsColorTurn(Position selectedPosition)
@@ -277,7 +291,14 @@ public static class GameBoard
 
         Turn = Turn == PieceColor.White ? PieceColor.Black : PieceColor.White;
         piece.HasMoved = true;
+        MovePieceSoundEffect();
     }
+
+    private static void MovePieceSoundEffect()
+    {
+        Console.Beep(400, 150);
+    }
+
     private static void PlaceGamePiece(Position squarePosition, Piece piece)
     {
         var square = Squares.SingleOrDefault(s => s.Position == squarePosition);
