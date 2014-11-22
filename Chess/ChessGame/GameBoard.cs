@@ -276,6 +276,7 @@ public static class GameBoard
         PlaceGamePiece(toSquarePosition, piece);
 
         Turn = Turn == PieceColor.White ? PieceColor.Black : PieceColor.White;
+        piece.HasMoved = true;
     }
     private static void PlaceGamePiece(Position squarePosition, Piece piece)
     {

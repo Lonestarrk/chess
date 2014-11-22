@@ -15,6 +15,7 @@ namespace ChessGame
 
     public abstract class Piece
     {
+        public bool HasMoved { get; set; }
         public PieceColor PieceColor { get; set; }
         public Square Square { get; set; }
         public MoveRule MoveRule { get; set; }

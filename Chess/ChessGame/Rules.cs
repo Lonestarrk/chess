@@ -34,16 +34,23 @@ namespace ChessGame
             var pos = currentSqure.Position;
             var next = nextSqare.Position;
 
+            bool forwardStep1 = !currentSqure.Piece.HasMoved ? (next.X == pos.X && next.Y == pos.Y - 2) || (next.X == pos.X && next.Y == pos.Y - 1) : (next.X == pos.X && next.Y == pos.Y - 1);
+            bool forwardStep2 = !currentSqure.Piece.HasMoved ? (next.X == pos.X && next.Y == pos.Y + 2) || (next.X == pos.X && next.Y == pos.Y + 1) : (next.X == pos.X && next.Y == pos.Y + 1);
+
             if (currentSqure.Piece.PieceColor == PieceColor.White)
             {
-                return (next.X == pos.X && next.Y == pos.Y - 1) ||
+
+                return forwardStep1 ||
                        HasEnemy(currentSqure, nextSqare) && (next.X == pos.X + 1 && next.Y == pos.Y - 1) ||
                        HasEnemy(currentSqure, nextSqare) && (next.X == pos.X - 1 && next.Y == pos.Y - 1);
             }
 
-            return (next.X == pos.X && next.Y == pos.Y + 1) ||
+
+
+            return forwardStep2 ||
                    HasEnemy(currentSqure, nextSqare) && (next.X == pos.X + 1 && next.Y == pos.Y + 1) ||
                    HasEnemy(currentSqure, nextSqare) && (next.X == pos.X - 1 && next.Y == pos.Y + 1);
+
         }
 
 
@@ -95,7 +102,7 @@ namespace ChessGame
 
         private static List<Square> GetVerticalAndHorizontalSquares(Square current)
         {
-      
+
             var path1 = new List<Square>();
             var path2 = new List<Square>();
             var path3 = new List<Square>();
@@ -115,7 +122,7 @@ namespace ChessGame
         }
 
         private static List<Square> GetDiagonalSquares(Square current)
-        {            
+        {
 
             var path1 = new List<Square>();
             var path2 = new List<Square>();
@@ -129,7 +136,7 @@ namespace ChessGame
                 path3.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == current.Position.X - n && s.Position.Y == current.Position.Y + n));
                 path4.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == current.Position.X + n && s.Position.Y == current.Position.Y - n));
 
-                
+
             }
 
             var squares = GetAccesableSquares(current, path1, path2, path3, path4);
