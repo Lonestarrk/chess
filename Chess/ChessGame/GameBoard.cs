@@ -115,10 +115,14 @@ public static class GameBoard
         Console.ReadKey();
     }
 
-    private static void NewGameSoundEffect()
+    private static async void NewGameSoundEffect()
     {
-        Console.Beep(300, 150);
-        Console.Beep(500, 150);
+        await Task.Run(() =>
+        {
+            Console.Beep(300, 150);
+            Console.Beep(500, 150);
+        });
+
     }
 
 
@@ -135,11 +139,11 @@ public static class GameBoard
         {
             var canMoveTo = GetAccessibleSquares(square.Position);
 
-            if (canMoveTo.Any(c => c != null && (c.Piece != null && c.Piece.GetType() == typeof (King))))
+            if (canMoveTo.Any(c => c != null && (c.Piece != null && c.Piece.GetType() == typeof(King))))
             {
                 CheckSoundEffect();
                 result.Push(true);
-                
+
                 state.Stop();
                 return;
             }
@@ -149,10 +153,14 @@ public static class GameBoard
 
     }
 
-    private static void CheckSoundEffect()
+    private static async void CheckSoundEffect()
     {
-        Console.Beep(500, 150);
-        Console.Beep(800, 150);
+        await Task.Run(() =>
+        {
+            Console.Beep(500, 150);
+            Console.Beep(800, 150);
+        });
+
     }
 
     private static bool IsColorTurn(Position selectedPosition)
@@ -308,9 +316,13 @@ public static class GameBoard
         MovePieceSoundEffect();
     }
 
-    private static void MovePieceSoundEffect()
+    private static async void MovePieceSoundEffect()
     {
-        Console.Beep(400, 150);
+        await Task.Run(() =>
+        {
+            Console.Beep(400, 150);
+        });
+
     }
 
     internal static void PlaceGamePiece(Position squarePosition, Piece piece)
