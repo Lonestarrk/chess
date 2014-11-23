@@ -127,17 +127,25 @@ public static class GameBoard
         var attackers = Squares.Where(s => s.Piece != null);
         //todo förbättra prestandan
 
-        foreach (var square in attackers)
+        var result = new Stack<bool>();
+
+        result.Push(false);
+
+        Parallel.ForEach(attackers, (square, state) =>
         {
             var canMoveTo = GetAccessibleSquares(square.Position);
 
-            if (canMoveTo.Any(c => c.Piece != null && c.Piece.GetType() == typeof(King)))
+            if (canMoveTo.Any(c => c.Piece != null && c.Piece.GetType() == typeof (King)))
             {
                 CheckSoundEffect();
-                return true;
+                result.Push(true);
+                
+                state.Stop();
+                return;
             }
-        }
-        return false;
+        });
+
+        return result.Pop();
 
     }
 
@@ -177,7 +185,18 @@ public static class GameBoard
 
         var Accessables = new List<Square>();
 
+        //Parallel.ForEach(Squares, square =>
+        //{
+        //    lock (square)
+        //    {
+        //        if (currentSquare != null && (currentSquare.Piece != null && currentSquare.Piece.CanMoveTo(square)))
+        //        {
+        //            Accessables.Add(square);
+        //        }
+        //    }
 
+        //});
+      
         foreach (var square in Squares)
         {
             if (currentSquare != null && (currentSquare.Piece != null && currentSquare.Piece.CanMoveTo(square)))

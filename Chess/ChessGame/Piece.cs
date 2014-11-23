@@ -44,12 +44,12 @@ namespace ChessGame
             var pieceCanMove = (toSquare.Piece == null || toSquare.Piece.PieceColor != this.PieceColor)
                 && MoveRule.Invoke(Square, toSquare);
 
-            var danger = IsDangerousMove(toSquare);
+            
 
             //if piece is king, special rules will apply
             if (this.GetType() == typeof(King))
             {
-                return !danger && pieceCanMove;
+                return !IsDangerousMove(toSquare) && pieceCanMove;
             }
 
             return pieceCanMove;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
@@ -132,6 +133,7 @@ namespace ChessGame
             var path3 = new List<Square>();
             var path4 = new List<Square>();
 
+           
             for (int n = 1; n <= 8; n++)
             {
                 path1.Add(GameBoard.Squares.SingleOrDefault(s => s.Position.X == current.Position.X + n && s.Position.Y == current.Position.Y + n));
@@ -141,7 +143,7 @@ namespace ChessGame
 
 
             }
-
+           
             var squares = GetAccesableSquares(current, path1, path2, path3, path4);
 
             return squares;
