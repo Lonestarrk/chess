@@ -60,10 +60,6 @@ namespace ChessGame
 
         private bool IsDangerousMove(Square toSquare)
         {
-            var result = new Stack<bool>();
-
-            result.Push(false);
-
             if (MoveRule.Invoke(Square, toSquare))
             {
                 var otherSide = GameBoard.Squares.Where(s => s.Piece != null && s.Piece.PieceColor != this.PieceColor).ToArray();
@@ -73,29 +69,30 @@ namespace ChessGame
                 {
                     var piece = GameBoard.TakeGamePiece(toSquare.Position); //remove the piece
 
-                    Parallel.ForEach(otherSide.Where(o => o.Piece != null), (enemySquare, state) =>
+                    foreach (var enemySquare in otherSide.Where(o => o.Piece != null))
                     {
                         if (enemySquare.Piece.MoveRule.Invoke(enemySquare, toSquare))
                         {
                             GameBoard.PlaceGamePiece(toSquare.Position, piece); // place the piece back
-                            result.Push(true);
-                            state.Stop();
+                            return true;
+
                         }
-                    });
+                    };
 
                     GameBoard.PlaceGamePiece(toSquare.Position, piece); // place the piece back                   
                 }
 
                 else
-                    Parallel.ForEach(otherSide, enemySquare =>
+                    foreach (var enemySquare in otherSide)
                     {
                         if (enemySquare.Piece.MoveRule.Invoke(enemySquare, toSquare))
                         {
-                            result.Push(true);
+                            return true;
                         }
-                    });
+                    }
+
             }
-            return result.Pop();
+            return false;
         }
     }
 }

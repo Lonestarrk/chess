@@ -19,6 +19,7 @@ public static class GameBoard
 {
     public static List<Square> Squares { get; private set; }
     public static PieceColor Turn { get; private set; }
+    public static bool IsCheckState { get; set; }
 
 
     static GameBoard()
@@ -51,23 +52,45 @@ public static class GameBoard
             switch (key)
             {
                 case ConsoleKey.LeftArrow:
-                    currentPosition.X--;
-                    break;
+                    if (currentPosition.X > 1)
+                    {
+                        currentPosition.X--;
+                        break;
+                    }
+                    continue;
                 case ConsoleKey.RightArrow:
-                    currentPosition.X++;
-                    break;
+                    if (currentPosition.X < 8)
+                    {
+                        currentPosition.X++;
+                        break;
+                    }
+                    continue;
+                    
                 case ConsoleKey.DownArrow:
-                    currentPosition.Y++;
-                    break;
+                    if (currentPosition.Y < 8)
+                    {
+                        currentPosition.Y++;
+                        break;
+                    }
+                    continue;
+                    
                 case ConsoleKey.UpArrow:
-                    currentPosition.Y--;
-                    break;
+                    if (currentPosition.Y > 1)
+                    {
+                        currentPosition.Y--;
+                        break;
+                    }
+                    continue;
+                    
                 case ConsoleKey.Enter:
+
+
 
                     if (accessableSquares != null)
                     {
                         if (accessableSquares.Any(a => a.Position == currentPosition))
                         {
+
                             Move(selectedPosition, currentPosition);
 
                             selectedPosition = null;
@@ -85,18 +108,18 @@ public static class GameBoard
             }
 
 
-            if (IsColorTurn(selectedPosition))
+            IsCheckState = IsCheck(Turn);
+
+            if (IsColorTurn(selectedPosition) && (!IsCheckState || PieceKindEquals(selectedPosition, typeof(King))))
             {
                 accessableSquares = GetAccessibleSquares(selectedPosition);
             }
 
-
             Console.Clear();
             DrawGameBoard(Squares, currentPosition, accessableSquares);
 
-
-
             Console.WriteLine(currentPosition);
+
             if (Turn == PieceColor.White)
             {
                 Console.WriteLine("Vits Tur");
@@ -107,13 +130,42 @@ public static class GameBoard
             }
 
 
-            if (IsCheck(Turn))
+            if (IsCheckState && KingCanNotMove(Turn))
+            {
+                Console.WriteLine("Schack Matt!");
+            }
+            else if (IsCheckState)
             {
                 Console.WriteLine("Schack!"); //todo fixa så man inte kan ta en pjäs som setter kungen i schack
             }
         }
         Console.ReadKey();
     }
+
+    private static bool KingCanNotMove(PieceColor turn)
+    {
+        var king = GetAllSquaresWithPieces().SingleOrDefault(s => s.Piece.GetType() == typeof(King) && s.Piece.PieceColor == turn);
+
+        return !GetAccessibleSquares(king.Position).Any();
+    }
+
+    private static IEnumerable<Square> GetAllSquaresWithPieces()
+    {
+        return GameBoard.Squares.Where(s => s.Piece != null);
+    }
+
+    private static bool PieceKindEquals(Position selectedPosition, Type type)
+    {
+        if (selectedPosition == null)
+        {
+            return false;
+        }
+        var squares = GameBoard.Squares.SingleOrDefault(s => s.Position == selectedPosition);
+
+        return squares.Piece != null && squares.Piece.GetType() == type;
+    }
+
+
 
     private static async void NewGameSoundEffect()
     {
@@ -129,7 +181,6 @@ public static class GameBoard
     private static bool IsCheck(PieceColor turn)
     {
         var attackers = Squares.Where(s => s.Piece != null);
-        //todo förbättra prestandan
 
         var result = new Stack<bool>();
 
