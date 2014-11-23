@@ -15,15 +15,18 @@ namespace ChessGame
             var pos = currentSqure.Position;
             var next = nextSqare.Position;
 
-            return Offset(pos, next, -1, -1) ||
-                   Offset(pos, next, 0, -1) ||
-                   Offset(pos, next, 1, -1) ||
-                   Offset(pos, next, -1, 0) ||
-                   Offset(pos, next, 1, 0) ||
-                   Offset(pos, next, -1, 1) ||
-                   Offset(pos, next, 0, 1) ||
-                   Offset(pos, next, 1, 1);
+
+            return (Offset(pos, next, -1, -1) ||
+                    Offset(pos, next, 0, -1) ||
+                    Offset(pos, next, 1, -1) ||
+                    Offset(pos, next, -1, 0) ||
+                    Offset(pos, next, 1, 0) ||
+                    Offset(pos, next, -1, 1) ||
+                    Offset(pos, next, 0, 1) ||
+                    Offset(pos, next, 1, 1));
         }
+
+
 
         public static bool Offset(Position current, Position next, int x, int y)
         {
@@ -34,10 +37,10 @@ namespace ChessGame
             var pos = currentSqure.Position;
             var next = nextSqare.Position;
 
-            bool forwardStep1 = !currentSqure.Piece.HasMoved ? (next.X == pos.X && next.Y == pos.Y - 2) || (next.X == pos.X && next.Y == pos.Y - 1) : (next.X == pos.X && next.Y == pos.Y - 1);
-            bool forwardStep2 = !currentSqure.Piece.HasMoved ? (next.X == pos.X && next.Y == pos.Y + 2) || (next.X == pos.X && next.Y == pos.Y + 1) : (next.X == pos.X && next.Y == pos.Y + 1);
+            bool forwardStep1 = currentSqure.Piece != null && (!currentSqure.Piece.HasMoved ? (next.X == pos.X && next.Y == pos.Y - 2) || (next.X == pos.X && next.Y == pos.Y - 1) : (next.X == pos.X && next.Y == pos.Y - 1));
+            bool forwardStep2 = currentSqure.Piece != null && (!currentSqure.Piece.HasMoved ? (next.X == pos.X && next.Y == pos.Y + 2) || (next.X == pos.X && next.Y == pos.Y + 1) : (next.X == pos.X && next.Y == pos.Y + 1));
 
-            if (currentSqure.Piece.PieceColor == PieceColor.White)
+            if (currentSqure.Piece != null && currentSqure.Piece.PieceColor == PieceColor.White)
             {
 
                 return forwardStep1 && !IsOccupied(nextSqare) ||

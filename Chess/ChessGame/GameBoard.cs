@@ -7,10 +7,12 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading.Tasks;
 using ChessGame;
 
 public static class GameBoard
@@ -67,7 +69,7 @@ public static class GameBoard
                         if (accessableSquares.Any(a => a.Position == currentPosition))
                         {
                             Move(selectedPosition, currentPosition);
-                            
+
                             selectedPosition = null;
                             break;
                         }
@@ -119,9 +121,11 @@ public static class GameBoard
         Console.Beep(500, 150);
     }
 
+
     private static bool IsCheck(PieceColor turn)
     {
         var attackers = Squares.Where(s => s.Piece != null);
+        //todo förbättra prestandan
 
         foreach (var square in attackers)
         {
@@ -134,7 +138,7 @@ public static class GameBoard
             }
         }
         return false;
-        
+
     }
 
     private static void CheckSoundEffect()
@@ -151,7 +155,7 @@ public static class GameBoard
         {
             return true;
         }
- 
+
         if (square.Piece.PieceColor == PieceColor.Black && Turn == PieceColor.Black)
         {
             return true;
@@ -173,14 +177,16 @@ public static class GameBoard
 
         var Accessables = new List<Square>();
 
+
         foreach (var square in Squares)
         {
-            if (currentSquare.Piece != null && currentSquare.Piece.CanMoveTo(square))
+            if (currentSquare != null && (currentSquare.Piece != null && currentSquare.Piece.CanMoveTo(square)))
             {
                 Accessables.Add(square);
             }
 
         }
+
         return Accessables;
     }
 
@@ -299,7 +305,7 @@ public static class GameBoard
         Console.Beep(400, 150);
     }
 
-    private static void PlaceGamePiece(Position squarePosition, Piece piece)
+    internal static void PlaceGamePiece(Position squarePosition, Piece piece)
     {
         var square = Squares.SingleOrDefault(s => s.Position == squarePosition);
 
@@ -308,7 +314,7 @@ public static class GameBoard
 
     }
 
-    private static Piece TakeGamePiece(Position squarePosition)
+    internal static Piece TakeGamePiece(Position squarePosition)
     {
         var square = Squares.SingleOrDefault(s => s.Position == squarePosition);
 

@@ -29,21 +29,63 @@ namespace ChessGame
         {
             if (CanMoveTo(square))
             {
-                
+
                 square.Piece = Square.Piece;
                 Square.Piece = null;
-               
+
                 return;
             }
 
             throw new ApplicationException("Flytten är inte tillåten");
         }
 
-        public virtual bool CanMoveTo(Square square)
+        public virtual bool CanMoveTo(Square toSquare)
         {
-            return (square.Piece == null || square.Piece.PieceColor != this.PieceColor)
-                && MoveRule.Invoke(Square, square);
+            var pieceCanMove = (toSquare.Piece == null || toSquare.Piece.PieceColor != this.PieceColor)
+                && MoveRule.Invoke(Square, toSquare);
+
+            var danger = IsDangerousMove(toSquare);
+
+            //if piece is king, special rules will apply
+            if (this.GetType() == typeof(King))
+            {
+                return !danger && pieceCanMove;
+            }
+
+            return pieceCanMove;
+
+
         }
 
+        private bool IsDangerousMove(Square toSquare)
+        {
+            if (MoveRule.Invoke(Square, toSquare))
+            {
+                var otherSide = GameBoard.Squares.Where(s => s.Piece != null && s.Piece.PieceColor != this.PieceColor).ToArray();
+
+                if (toSquare.Piece != null && toSquare.Piece.PieceColor != PieceColor) //if tries to take opponentes piece
+                {
+                    var piece = GameBoard.TakeGamePiece(toSquare.Position); //remove the piece
+
+                    foreach (Square enemySquare in otherSide.Where(o => o.Piece != null))
+                    {
+                        if (enemySquare.Piece.MoveRule.Invoke(enemySquare, toSquare))
+                        {
+                            GameBoard.PlaceGamePiece(toSquare.Position, piece); // place the piece back
+                            return true;
+                        }
+                    }
+
+                    GameBoard.PlaceGamePiece(toSquare.Position, piece); // place the piece back
+                    
+                }
+
+                if (otherSide.Any(enemySquare => enemySquare.Piece.MoveRule.Invoke(enemySquare, toSquare)))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
