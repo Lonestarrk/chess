@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ChessGame
 {
@@ -44,7 +45,7 @@ namespace ChessGame
             var pieceCanMove = (toSquare.Piece == null || toSquare.Piece.PieceColor != this.PieceColor)
                 && MoveRule.Invoke(Square, toSquare);
 
-            
+
 
             //if piece is king, special rules will apply
             if (this.GetType() == typeof(King))
@@ -59,33 +60,42 @@ namespace ChessGame
 
         private bool IsDangerousMove(Square toSquare)
         {
+            var result = new Stack<bool>();
+
+            result.Push(false);
+
             if (MoveRule.Invoke(Square, toSquare))
             {
                 var otherSide = GameBoard.Squares.Where(s => s.Piece != null && s.Piece.PieceColor != this.PieceColor).ToArray();
 
-                if (toSquare.Piece != null && toSquare.Piece.PieceColor != PieceColor) //if tries to take opponentes piece
+                if (toSquare.Piece != null && toSquare.Piece.PieceColor != PieceColor)
+                //if tries to take opponentes piece
                 {
                     var piece = GameBoard.TakeGamePiece(toSquare.Position); //remove the piece
 
-                    foreach (Square enemySquare in otherSide.Where(o => o.Piece != null))
+                    Parallel.ForEach(otherSide.Where(o => o.Piece != null), (enemySquare, state) =>
                     {
                         if (enemySquare.Piece.MoveRule.Invoke(enemySquare, toSquare))
                         {
                             GameBoard.PlaceGamePiece(toSquare.Position, piece); // place the piece back
-                            return true;
+                            result.Push(true);
+                            state.Stop();
                         }
-                    }
+                    });
 
-                    GameBoard.PlaceGamePiece(toSquare.Position, piece); // place the piece back
-                    
+                    GameBoard.PlaceGamePiece(toSquare.Position, piece); // place the piece back                   
                 }
 
-                if (otherSide.Any(enemySquare => enemySquare.Piece.MoveRule.Invoke(enemySquare, toSquare)))
-                {
-                    return true;
-                }
+                else
+                    Parallel.ForEach(otherSide, enemySquare =>
+                    {
+                        if (enemySquare.Piece.MoveRule.Invoke(enemySquare, toSquare))
+                        {
+                            result.Push(true);
+                        }
+                    });
             }
-            return false;
+            return result.Pop();
         }
     }
 }

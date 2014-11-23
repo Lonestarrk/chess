@@ -135,7 +135,7 @@ public static class GameBoard
         {
             var canMoveTo = GetAccessibleSquares(square.Position);
 
-            if (canMoveTo.Any(c => c.Piece != null && c.Piece.GetType() == typeof (King)))
+            if (canMoveTo.Any(c => c != null && (c.Piece != null && c.Piece.GetType() == typeof (King))))
             {
                 CheckSoundEffect();
                 result.Push(true);
@@ -185,18 +185,7 @@ public static class GameBoard
 
         var Accessables = new List<Square>();
 
-        //Parallel.ForEach(Squares, square =>
-        //{
-        //    lock (square)
-        //    {
-        //        if (currentSquare != null && (currentSquare.Piece != null && currentSquare.Piece.CanMoveTo(square)))
-        //        {
-        //            Accessables.Add(square);
-        //        }
-        //    }
 
-        //});
-      
         foreach (var square in Squares)
         {
             if (currentSquare != null && (currentSquare.Piece != null && currentSquare.Piece.CanMoveTo(square)))
