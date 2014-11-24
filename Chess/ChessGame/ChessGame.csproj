@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bishop.cs" />
+    <Compile Include="ChessBoardDrawer.cs" />
     <Compile Include="GameBoard.cs" />
     <Compile Include="IPiece.cs" />
     <Compile Include="King.cs" />

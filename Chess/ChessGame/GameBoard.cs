@@ -21,6 +21,14 @@ public static class GameBoard
     public static PieceColor Turn { get; private set; }
     public static bool IsCheckState { get; set; }
 
+    public static event EventHandler CheckEvent;
+
+    private static void OnCheckEvent()
+    {
+        EventHandler handler = CheckEvent;
+        if (handler != null) handler(null, EventArgs.Empty);
+    }
+
 
     static GameBoard()
     {
@@ -40,7 +48,7 @@ public static class GameBoard
 
         var currentPosition = new Position(5, 5);
         Position selectedPosition = null;
-        DrawGameBoard(Squares, currentPosition);
+        ChessBoardDrawer.DrawGameBoard(Squares, currentPosition);
 
         IEnumerable<Square> accessableSquares = null;
 
@@ -65,7 +73,7 @@ public static class GameBoard
                         break;
                     }
                     continue;
-                    
+
                 case ConsoleKey.DownArrow:
                     if (currentPosition.Y < 8)
                     {
@@ -73,7 +81,7 @@ public static class GameBoard
                         break;
                     }
                     continue;
-                    
+
                 case ConsoleKey.UpArrow:
                     if (currentPosition.Y > 1)
                     {
@@ -81,7 +89,7 @@ public static class GameBoard
                         break;
                     }
                     continue;
-                    
+
                 case ConsoleKey.Enter:
 
 
@@ -116,7 +124,7 @@ public static class GameBoard
             }
 
             Console.Clear();
-            DrawGameBoard(Squares, currentPosition, accessableSquares);
+            ChessBoardDrawer.DrawGameBoard(Squares, currentPosition, accessableSquares);
 
             Console.WriteLine(currentPosition);
 
@@ -165,8 +173,6 @@ public static class GameBoard
         return squares.Piece != null && squares.Piece.GetType() == type;
     }
 
-
-
     private static async void NewGameSoundEffect()
     {
         await Task.Run(() =>
@@ -176,7 +182,6 @@ public static class GameBoard
         });
 
     }
-
 
     private static bool IsCheck(PieceColor turn)
     {
@@ -194,7 +199,7 @@ public static class GameBoard
             {
                 CheckSoundEffect();
                 result.Push(true);
-
+                OnCheckEvent();
                 state.Stop();
                 return;
             }
@@ -255,75 +260,6 @@ public static class GameBoard
         }
 
         return Accessables;
-    }
-
-    private static void DrawGameBoard(List<Square> squares, Position selectedSquarePosition, IEnumerable<Square> selectedCanMoveTo = null)
-    {
-
-
-        bool oddNumbersAreWhite = true;
-
-        for (int i = 1; i <= 8; i++)
-        {
-            int rowNumber = i;
-
-            DrawRow(rowNumber, oddNumbersAreWhite, false, selectedSquarePosition, selectedCanMoveTo);
-            DrawRow(rowNumber, oddNumbersAreWhite, true, selectedSquarePosition, selectedCanMoveTo);
-            DrawRow(rowNumber, oddNumbersAreWhite, false, selectedSquarePosition, selectedCanMoveTo);
-            DrawRow(rowNumber, oddNumbersAreWhite, false, selectedSquarePosition, selectedCanMoveTo);
-
-            oddNumbersAreWhite = !oddNumbersAreWhite;
-        }
-
-        Console.BackgroundColor = ConsoleColor.Black;
-    }
-
-    private static void DrawRow(int rowNumber, bool oddIsWhite, bool drawPiece, Position selectedSquarePosition, IEnumerable<Square> selectedCanMoveTo = null)
-    {
-
-        for (int i = 1; i <= 8; i++)
-        {
-            var square = Squares.SingleOrDefault(s => s.Position.X == i && s.Position.Y == rowNumber);
-
-            if (i == selectedSquarePosition.X && rowNumber == selectedSquarePosition.Y)
-            {
-                Console.BackgroundColor = ConsoleColor.DarkCyan;
-
-            }
-            else if (selectedCanMoveTo != null && selectedCanMoveTo.Any(s => s.Position.X == i && s.Position.Y == rowNumber))
-            {
-                Console.BackgroundColor = oddIsWhite
-                    ? (i % 2 == 0 ? ConsoleColor.DarkGreen : ConsoleColor.Green)
-                    : (i % 2 == 0 ? ConsoleColor.Green : ConsoleColor.DarkGreen);
-            }
-            else
-            {
-                Console.BackgroundColor = oddIsWhite
-                    ? (i % 2 == 0 ? ConsoleColor.DarkGray : ConsoleColor.Gray)
-                    : (i % 2 == 0 ? ConsoleColor.Gray : ConsoleColor.DarkGray);
-            }
-
-
-
-            Console.ForegroundColor = square.Piece != null && square.Piece.PieceColor == PieceColor.White
-                ? ConsoleColor.White
-                : ConsoleColor.Black;
-
-
-            Console.Write(new string(' ', 3));
-            if (square.Piece != null && drawPiece)
-            {
-                Console.Write(square.Piece);
-            }
-            else
-            {
-                Console.Write(' ');
-            }
-
-            Console.Write(new string(' ', 3));
-        }
-
-        Console.WriteLine();
     }
 
     private static void PlaceGamePieces()
@@ -408,6 +344,5 @@ public static class GameBoard
             }
         }
     }
-
 }
 
