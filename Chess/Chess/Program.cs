@@ -14,10 +14,12 @@ namespace Chess
 
               
             GameBoard.NewGame();
-        
 
-          
-          
+            //var squares = GameBoard.GeneratAllBoardSquares();
+
+            //ChessBoardDrawer.DrawGameBoard(squares);
+           
+            
             
             
             Console.Read();

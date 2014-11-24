@@ -14,7 +14,7 @@ namespace ChessGame
         White
     }
 
-    public abstract class Piece
+    public abstract class Piece : IPiece
     {
         public bool HasMoved { get; set; }
         public PieceColor PieceColor { get; set; }

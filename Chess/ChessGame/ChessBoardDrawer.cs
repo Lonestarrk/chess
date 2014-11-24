@@ -8,9 +8,9 @@ namespace ChessGame
 {
     public class ChessBoardDrawer
     {
-        public static void DrawGameBoard(List<Square> squares, Position selectedSquarePosition = null, IEnumerable<Square> selectedCanMoveTo = null)
+        public static void DrawGameBoard(IEnumerable<Square> squares, Position selectedSquarePosition = null, IEnumerable<Square> selectedCanMoveTo = null)
         {
-            
+            Console.SetWindowSize(80, 40);
 
             bool oddNumbersAreWhite = true;
 

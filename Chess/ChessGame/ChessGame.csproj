@@ -43,6 +43,7 @@
     <Compile Include="ChessBoardDrawer.cs" />
     <Compile Include="GameBoard.cs" />
     <Compile Include="IPiece.cs" />
+    <Compile Include="ISquare.cs" />
     <Compile Include="King.cs" />
     <Compile Include="Knight.cs" />
     <Compile Include="Pawn.cs" />

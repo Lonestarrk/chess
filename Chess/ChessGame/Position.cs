@@ -2,7 +2,13 @@
 
 namespace ChessGame
 {
-    public class Position
+    public interface IPosition
+    {
+        int X { get; set; }
+        int Y { get; set; }
+    }
+
+    public class Position : IPosition
     {
         public Position(int x, int y)
         {

@@ -312,7 +312,7 @@ public static class GameBoard
 
     }
 
-    internal static void PlaceGamePiece(Position squarePosition, Piece piece)
+    public static void PlaceGamePiece(Position squarePosition, Piece piece)
     {
         var square = Squares.SingleOrDefault(s => s.Position == squarePosition);
 
@@ -321,7 +321,7 @@ public static class GameBoard
 
     }
 
-    internal static Piece TakeGamePiece(Position squarePosition)
+    public static Piece TakeGamePiece(Position squarePosition)
     {
         var square = Squares.SingleOrDefault(s => s.Position == squarePosition);
 
@@ -331,7 +331,7 @@ public static class GameBoard
         return piece;
     }
 
-    private static void GeneratAllBoardSquares()
+    public static IEnumerable<Square> GeneratAllBoardSquares()
     {
         for (int x = 1; x <= 8; x++)
         {
@@ -343,6 +343,7 @@ public static class GameBoard
                 });
             }
         }
+        return Squares;
     }
 }
 
