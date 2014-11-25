@@ -2,13 +2,9 @@
 
 namespace ChessGame
 {
-    public interface IPosition
-    {
-        int X { get; set; }
-        int Y { get; set; }
-    }
 
-    public class Position : IPosition
+
+    public class Position
     {
         public Position(int x, int y)
         {
@@ -22,14 +18,6 @@ namespace ChessGame
         protected bool Equals(Position other)
         {
             return X == other.X && Y == other.Y;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((Position)obj);
         }
 
 

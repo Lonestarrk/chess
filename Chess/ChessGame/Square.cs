@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using ChessGame;
 
-public class Square : ISquare
+public class Square 
 {
     public Piece Piece { get; set; }
     public Position Position { get; set; }

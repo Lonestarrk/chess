@@ -26,20 +26,6 @@ namespace ChessGame
             PieceColor = pieceColor;
         }
 
-        public virtual void MoveTo(Square square)
-        {
-            if (CanMoveTo(square))
-            {
-
-                square.Piece = Square.Piece;
-                Square.Piece = null;
-
-                return;
-            }
-
-            throw new ApplicationException("Flytten är inte tillåten");
-        }
-
         public virtual bool CanMoveTo(Square toSquare)
         {
             var pieceCanMove = (toSquare.Piece == null || toSquare.Piece.PieceColor != this.PieceColor)
