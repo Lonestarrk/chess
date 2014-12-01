@@ -8,7 +8,7 @@ namespace ChessGame
 {
     public class ChessBoardDrawer
     {
-        public static void DrawGameBoard(IEnumerable<Square> squares, Position selectedSquarePosition = null, IEnumerable<Square> selectedCanMoveTo = null)
+        public static void DrawGameBoard(IEnumerable<ISquare> squares, Position selectedSquarePosition = null, IEnumerable<ISquare> selectedCanMoveTo = null)
         {
             Console.SetWindowSize(80, 40);
 
@@ -29,7 +29,7 @@ namespace ChessGame
             Console.BackgroundColor = ConsoleColor.Black;
         }
 
-        private static void DrawRow(int rowNumber, bool oddIsWhite, bool drawPiece, Position selectedSquarePosition = null, IEnumerable<Square> selectedCanMoveTo = null)
+        private static void DrawRow(int rowNumber, bool oddIsWhite, bool drawPiece, Position selectedSquarePosition = null, IEnumerable<ISquare> selectedCanMoveTo = null)
         {
 
             for (int i = 1; i <= 8; i++)

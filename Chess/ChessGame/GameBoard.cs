@@ -15,13 +15,33 @@ using System.Text;
 using System.Threading.Tasks;
 using ChessGame;
 
+
+public delegate void SelectPieceEventHandler(object sender, SelectPieceEventArgs args);
+public delegate void MovePieceEventHandler(object sender, MovePieceEventArgs args);
+
 public static class GameBoard
 {
     public static List<Square> Squares { get; private set; }
     public static PieceColor Turn { get; private set; }
     public static bool IsCheckState { get; set; }
+    public static bool IsCheckMateState { get; set; }
+    public static IEnumerable<Square> ReachableSquares { get; set; }
 
     public static event EventHandler CheckEvent;
+    public static event SelectPieceEventHandler SelectPieceEvent;
+    public static event MovePieceEventHandler MovePieceEvent;
+
+    private static void OnMovePieceEvent(MovePieceEventArgs args)
+    {
+        MovePieceEventHandler handler = MovePieceEvent;
+        if (handler != null) handler(null, args);
+    }
+
+    private static void OnSelectPieceEvent(SelectPieceEventArgs args)
+    {
+        SelectPieceEventHandler handler = SelectPieceEvent;
+        if (handler != null) handler(null, args);
+    }
 
     private static void OnCheckEvent()
     {
@@ -35,8 +55,9 @@ public static class GameBoard
         Squares = new List<Square>();
     }
 
-    public static void NewGame()
+    public static void StartGame()
     {
+
         NewGameSoundEffect();
 
         Console.SetWindowSize(80, 40);
@@ -50,7 +71,7 @@ public static class GameBoard
         Position selectedPosition = null;
         ChessBoardDrawer.DrawGameBoard(Squares, currentPosition);
 
-        IEnumerable<Square> accessableSquares = null;
+
 
         while (true)
         {
@@ -92,22 +113,18 @@ public static class GameBoard
 
                 case ConsoleKey.Enter:
 
-
-
-                    if (accessableSquares != null)
+                    if (selectedPosition == null)
                     {
-                        if (accessableSquares.Any(a => a.Position == currentPosition))
-                        {
-
-                            Move(selectedPosition, currentPosition);
-
-                            selectedPosition = null;
-                            break;
-                        }
-
+                        selectedPosition = new Position(currentPosition.X, currentPosition.Y);
+                        var square = GetSquare(selectedPosition);
+                        OnSelectPieceEvent(new SelectPieceEventArgs(square));
                     }
+                    else
+                    {
 
-                    selectedPosition = new Position(currentPosition.X, currentPosition.Y);
+                        OnMovePieceEvent(new MovePieceEventArgs(selectedPosition, currentPosition));
+                        selectedPosition = null;
+                    }
                     break;
 
                 case ConsoleKey.Escape:
@@ -116,15 +133,15 @@ public static class GameBoard
             }
 
 
-            IsCheckState = IsCheck(Turn);
+            
 
-            if (IsColorTurn(selectedPosition) && (!IsCheckState || PieceKindEquals(selectedPosition, typeof(King))))
-            {
-                accessableSquares = GetAccessibleSquares(selectedPosition);
-            }
+            //if (IsColorTurn(selectedPosition) && (!IsCheckState || PieceKindEquals(selectedPosition, typeof(King))))
+            //{
+            //    accessableSquares = GetReachableSquares(selectedPosition);
+            //}
 
             Console.Clear();
-            ChessBoardDrawer.DrawGameBoard(Squares, currentPosition, accessableSquares);
+            ChessBoardDrawer.DrawGameBoard(Squares, currentPosition, ReachableSquares);
 
             Console.WriteLine(currentPosition);
 
@@ -137,24 +154,32 @@ public static class GameBoard
                 Console.WriteLine("Svarts Tur");
             }
 
-
             if (IsCheckState && KingCanNotMove(Turn))
             {
+                IsCheckMateState = true;
                 Console.WriteLine("Schack Matt!");
+               
             }
             else if (IsCheckState)
             {
-                Console.WriteLine("Schack!"); //todo fixa så man inte kan ta en pjäs som setter kungen i schack
+                Console.WriteLine("Schack!");
             }
+
+
         }
-        Console.ReadKey();
+        
     }
 
-    private static bool KingCanNotMove(PieceColor turn)
+    private static Square GetSquare(Position selectedPosition)
+    {
+        return GameBoard.Squares.SingleOrDefault(s => s.Position == selectedPosition);
+    }
+
+    public static bool KingCanNotMove(PieceColor turn)
     {
         var king = GetAllSquaresWithPieces().SingleOrDefault(s => s.Piece.GetType() == typeof(King) && s.Piece.PieceColor == turn);
 
-        return !GetAccessibleSquares(king.Position).Any();
+        return !GetReachableSquares(king.Position).Any();
     }
 
     private static IEnumerable<Square> GetAllSquaresWithPieces()
@@ -183,7 +208,7 @@ public static class GameBoard
 
     }
 
-    private static bool IsCheck(PieceColor turn)
+    public static bool IsCheck(PieceColor turn)
     {
         var attackers = Squares.Where(s => s.Piece != null);
 
@@ -193,7 +218,7 @@ public static class GameBoard
 
         Parallel.ForEach(attackers, (square, state) =>
         {
-            var canMoveTo = GetAccessibleSquares(square.Position);
+            var canMoveTo = GetReachableSquares(square.Position);
 
             if (canMoveTo.Any(c => c != null && (c.Piece != null && c.Piece.GetType() == typeof(King))))
             {
@@ -239,7 +264,7 @@ public static class GameBoard
         return false;
     }
 
-    public static IEnumerable<Square> GetAccessibleSquares(Position selectedPosition)
+    public static IEnumerable<Square> GetReachableSquares(Position selectedPosition)
     {
         if (selectedPosition == null)
         {
