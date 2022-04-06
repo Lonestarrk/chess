@@ -2,3 +2,9 @@ C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\bin\Debug\ChessGameModelLib.dll
 C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\bin\Debug\ChessGameModelLib.pdb
 C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\obj\Debug\ChessGameModelLib.dll
 C:\Users\Jimmy\Desktop\Chess\ChessGameModelLib\obj\Debug\ChessGameModelLib.pdb
+C:\Ny mapp\chess\Chess\ChessGameModelLib\bin\Debug\ChessGameModelLib.dll
+C:\Ny mapp\chess\Chess\ChessGameModelLib\bin\Debug\ChessGameModelLib.pdb
+C:\Ny mapp\chess\Chess\ChessGameModelLib\obj\Debug\ChessGameModelLib.csproj.AssemblyReference.cache
+C:\Ny mapp\chess\Chess\ChessGameModelLib\obj\Debug\ChessGameModelLib.csproj.CoreCompileInputs.cache
+C:\Ny mapp\chess\Chess\ChessGameModelLib\obj\Debug\ChessGameModelLib.dll
+C:\Ny mapp\chess\Chess\ChessGameModelLib\obj\Debug\ChessGameModelLib.pdb

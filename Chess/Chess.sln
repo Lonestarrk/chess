@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chess", "Chess\Chess.csproj", "{51649F5F-8F29-48B6-A6EE-47185CF4C6D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessGame", "ChessGame\ChessGame.csproj", "{E7DE864D-F98B-4AAB-8932-CA6A93D958FA}"
-EndProject
-Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "ChessGameModel", "ChessGameModel\ChessGameModel.modelproj", "{E78AE211-259F-4C05-98E8-6E7629D4DA3B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessGameModelLib", "ChessGameModelLib\ChessGameModelLib.csproj", "{08F4CA8D-7E96-4CFC-9B7E-0692D74E0362}"
 EndProject
@@ -25,10 +23,6 @@ Global
 		{E7DE864D-F98B-4AAB-8932-CA6A93D958FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7DE864D-F98B-4AAB-8932-CA6A93D958FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7DE864D-F98B-4AAB-8932-CA6A93D958FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E78AE211-259F-4C05-98E8-6E7629D4DA3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E78AE211-259F-4C05-98E8-6E7629D4DA3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E78AE211-259F-4C05-98E8-6E7629D4DA3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E78AE211-259F-4C05-98E8-6E7629D4DA3B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{08F4CA8D-7E96-4CFC-9B7E-0692D74E0362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08F4CA8D-7E96-4CFC-9B7E-0692D74E0362}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08F4CA8D-7E96-4CFC-9B7E-0692D74E0362}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,5 +33,6 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .
+		SolutionGuid = {36EBFD9D-1249-4B53-BD1A-63A14BC9C876}
 	EndGlobalSection
 EndGlobal
